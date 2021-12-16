@@ -1,0 +1,37 @@
+---
+- name: use the file lookup plugin
+  hosts: server5
+  vars_files: filtervars.yml
+  tasks:
+
+    - name: display multiple file contents
+      debug: var=item
+      with_file:
+        - "./test.yml"
+        - "./howto.txt"  
+        - "./inventory/myhosts"
+
+    - name: Find the files
+      find:
+        path: "{{lookup_file }}"
+        recurse: True
+      register: found_files
+
+    - name: print found_files
+      debug:
+        var: found_files
+
+    - set_fact:
+      #result: "{{ found_files['files'] | map(attribute='path') | list }}"
+        result: "{{ found_files.files | map(attribute='path') | list }}"
+
+    - set_fact:
+        result_relative_path: "{{ result | map('relpath', lookup_file) }}"
+
+    - name: print result
+      debug:
+        var: result
+
+    - name: print result relative path
+      debug:
+        var: result_relative_path

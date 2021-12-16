@@ -1,0 +1,11 @@
+---
+# vars file for tower_createCSR
+
+pk_path: ~/tower.key
+csr_path: ~/tower.csr
+cName: tower-dev.whatever.com
+semail_addr: ben_forrester@hotmail.com
+dns_server:
+   dns:
+     - tower-dev.whatever.com
+     - myserver.whatever.com

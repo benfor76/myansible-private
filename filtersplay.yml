@@ -1,0 +1,66 @@
+---
+- name: Experimenting with filters
+  hosts: server4
+  gather_facts: no
+  vars_files: filtervars.yml
+  tasks:
+
+    #- name: Extract filter used to map from a list of hosts in group webserver looks them up in hostvars
+    #  debug:
+    #    msg: "{{ groups['webserver'] | map('extract', hostvars, 'proxy') | list }}"
+    - name: show extracted list of keys from a list of dictionaries
+      debug:
+        msg: "{{ chains | map('extract', chains_config) | map(attribute='configs') | flatten | map(attribute='type') | flatten }}"
+      vars:
+        chains: [1, 2]
+        chains_config:
+            1:
+                foo: bar
+                configs:
+                    - type: routed
+                      version: 0.1
+                    - type: bridged
+                      version: 0.2
+            2:
+                foo: baz
+                configs:
+                    - type: routed
+                      version: 1.0
+                    - type: bridged
+                      version: 1.1
+
+      #Use flatten to merge lists values that come from iterating a parent list.
+    - name: Use the flatten filter to merge serveral lists into a single one to simplify iteration
+      debug:
+        msg: "{{ [2,[4,[6,8]],10] | flatten | list}}"
+
+    - name: Find files for testing
+      find:
+        paths: "{{ lookup_file }}"
+        recurse:
+      register: find_files
+
+    - name: print files found
+      debug:
+        msg: "{{ find_files }}"
+          
+    - set_fact:
+        found_files: "{{ find_files['files'] | map(attribute='path') | list }}"
+
+    - set_fact:
+        deployed_found_files: "{{ found_files | map('relpath', lookup_file) | list }}"
+
+
+    - name: print found_files var
+      debug:
+        msg: "{{ found_files }}"
+
+    - name: print deployed_found_files
+      debug:
+        msg: "{{ deployed_found_files }}"
+
+   #- name: Remove extraneous Files
+   #   file:
+   #     path: "{{ lookup_file }}/{{ item }}"
+   #     state: absent
+   #   loop: "{{ deployed_found_files | difference(find_files) }}"

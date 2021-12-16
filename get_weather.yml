@@ -1,0 +1,33 @@
+---
+- name: Test getting weather information
+  hosts: localhost
+  vars_prompt:
+
+    - name: city
+      prompt: What city do you want to check the weather in?
+      private: no
+
+  tasks:
+    - name: Connecting to Weather API
+      uri:
+        url: "http://api.weatherapi.com/v1/current.json?key=e897644337324a04b8412331211311&q={{ city | urlencode }}&aqi=no"
+        method: GET
+        return_content: yes
+        body_format: json
+      ignore_errors: yes
+      register: got_weather
+   
+    - block:
+        - name: Validating Connection
+          debug:
+            msg: "{{ 'Connection made to weather api' if got_weather.status ==200 else 'Connection not made.' }}"
+        - name: "Print the weather for {{ got_weather.json.location.name }}."
+          debug:
+            msg: 
+              - "The weather in {{ got_weather.json.location.name }} is {{ got_weather.json.current.temp_f}} degrees but it feels like {{ got_weather.json.current.feelslike_f }}"
+              - "The winds are out of the {{ got_weather.json.current.wind_dir }} at {{ got_weather.json.current.wind_mph }} mph"
+      when: got_weather.status == 200
+
+    - debug:
+        msg: "Connection not made"
+      when: got_weather.status != 200

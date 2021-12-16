@@ -1,0 +1,10 @@
+- name: Testing random filter
+  hosts: server5
+  gather_facts: false
+  tasks:
+
+    - name: Use the random filter
+      debug:
+        msg: "{{ my_string | random }}"
+      vars:
+        my_string: ['Ben', 'Ethan', 'Caden', 'Nikki']

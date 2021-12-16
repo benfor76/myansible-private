@@ -1,0 +1,36 @@
+---
+- name: Testing delegating tasks
+  hosts: server5
+  gather_facts: false
+  become: false
+  tasks:
+
+    - name: Get System Information
+      command: hostname 
+      register: server
+
+    - name: Display Server5 system information
+      debug:
+        #msg: "{{ server }}"
+        var: server
+
+    - name: Get System Information
+      command: hostname 
+      delegate_to: localhost
+      register: local
+
+    - name: Display Server5 system information
+      debug:
+        #msg: "{{ local }}"
+        var: local
+
+    - name: Run a loop of servers in a group to delegate task
+      command: hostname
+      delegate_to: "{{ item }}"
+      loop: "{{ groups['webservers'] }}"
+      register: my_loop
+
+    - name: Display the my_loop var 
+      debug:
+        #msg: "{{ local }}"
+        var: my_loop

@@ -1,0 +1,63 @@
+---
+- name: testing vars
+  hosts: server5
+  gather_facts: false
+  tasks:
+
+    - name: Test an int
+      debug:
+        var: "{{t | string }}"
+      vars:
+        t: 42
+
+    - name: Test a float
+      debug:
+        var: z
+      vars:
+        z: 91.0
+
+    - name: Test Scientific Notation
+      debug:
+        var: p
+      vars:
+        p: 9.3e+1
+
+    - name: Put quotes around a number
+      debug:
+        var: s
+      vars:
+        s: "92"
+
+    - name: Test a list
+      debug:
+        msg: "{{l[3]}}"
+      vars:
+        l:
+          - Ben
+          - Nikki
+          - Ethan
+          - Caden
+
+    - name: Test Dictionaries
+      debug:
+        msg: "{{d['Ethan']}}"
+      vars:
+        d:
+          Ben: Alabama
+          Ethan: Georgia
+          Caden: Georgia Tech
+          Nikki: Troy
+
+    - name: Test Strings
+      debug:
+        #msg: "{{my_string}}"
+        #msg: "{{my_string | capitalize}}"
+        msg: "{{my_string | lower}}"
+      vars:
+        my_string: "WHAT'S UP MAN!" 
+        #my_string: "what's up man!" 
+
+    - name: Test to see if the assertion is true , fail if not
+      assert:
+        that:
+          - "{{ [1,4,2,2] | unique | sort }} is eq([1,2,4])"

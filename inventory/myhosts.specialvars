@@ -1,0 +1,24 @@
+[logicservers]
+server1  ansible_host=server100.example.com  ansible_connection=local deprecation_warnings=false force_fail=1
+server2  ansible_host=server101.example.com  ansible_connection=local deprecation_warnings=false force_fail=1
+server3  ansible_host=server103.example.com  ansible_connection=local force_fail=0
+server4  ansible_host=server104.example.com  ansible_connection=local force_fail=0  ansible_port=25
+
+[webservers]
+server5  ansible_host=127.0.0.1  ansible_connection=local deprecation_warnings=false
+server6  ansible_host=127.0.0.2  ansible_connection=local INTERPRETER_PYTHON=auto_silent 
+server7  ansible_host=127.0.0.3  ansible_connection=local ansible_user=ben become=false
+server8  ansible_host=127.0.0.4  ansible_connection=local ansible_user=nikki
+
+[dbservers]
+server9  ansible_host=127.0.0.5  ansible_connection=local deprecation_warnings=false
+server10  ansible_host=127.0.0.6  ansible_connection=local INTERPRETER_PYTHON=auto_silent 
+
+[fullstack:children]
+webservers
+dbservers
+
+[all:vars]
+registry_url='https://registry.redhat.io'
+registry_username='ben_forrester@hotmail.com'
+registry_password='andyouknowthisman'

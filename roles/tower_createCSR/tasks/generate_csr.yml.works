@@ -1,0 +1,24 @@
+---
+
+- name: Set custom fact
+  set_fact:
+    my_Required: "email:{{ email_addr }},{{ item.value | map('regex_replace', '^', 'DNS:') | join(',') }}"
+    #my_Required: > 
+    #               email:{{ email_addr 
+    #               }},{{ item.value | 
+    #               map('regex_replace', '^', 'DNS:') 
+    #               | join(',') }}
+  with_dict: "{{ dns_server }}"
+
+- name: show my_required
+  debug:
+    var: my_Required
+
+- name: Generate an OpenSSL Certificate Signing Request with Subject information
+  openssl_csr:
+    path: "{{ csr_path }}.{{  ansible_date_time.date }}"
+    privatekey_path: "{{ pk_path }}.{{ ansible_date_time.date }}"
+    organizational_unit_name: whatever
+    organization_name: diddo
+    common_name: "{{ cName }}"
+    subject_alt_name: "{{ my_Required }}"

@@ -1,0 +1,91 @@
+---
+- name: Let's play with strings with breaks and strings without breaks shall we!
+  hosts: server5
+  vars:
+    string_with_breaks: |
+      This string
+      has several
+      line breaks.
+    string_without_breaks: >
+      This string will not 
+      contain any line breaks.
+      Separated lines are joined 
+      by a space character.
+    myname: ben
+    myfloat: 41.2
+    heyEmpty: null
+    myhosts: "{{ lookup('file', './files/hosts') }}"
+    #myhosts: "{{ query('file', './files/hosts') }}"
+    mynum: 2 
+
+  tasks:
+    
+    #- name: Use the default filter
+    #  debug:
+    #    msg: "{{ heyEmpty | default('my test', True) }}"
+
+    - name: Use the default(omit) filter
+      debug:
+        msg: "{{ heyEmpty | default(omit) }}"
+
+    - name: print hash string 
+      debug:
+        msg: "{{ 'Arthur' | hash('sha1') }}"
+
+    - name: sum some numbers
+      debug:
+        msg: "{{ [2, 4, 6, 8, 10, 12] | sum }}"
+
+    - name: replacing text 
+      debug:
+        msg: "'{{ 'marvin' | replace('ar','o') }}'"
+
+    - name: print mynum
+      debug:
+        msg: "{{ 24 * mynum }}" 
+
+
+    #- name: Print empty 
+    #  debug:
+    #    msg: "{{ heyEmpty | mandatory }}" 
+
+    - name: Print heyEmpty to see that a value is set to that variable
+      debug:
+        var: heyEmpty
+
+    - name: print myhosts
+      debug:
+        msg: "{{ myhosts }}"
+
+    - name: Print string with breaks
+      debug:
+        var: string_with_breaks
+
+    - name: Print string without breaks
+      debug:
+        var: string_without_breaks
+
+    - name: Capitalize string
+      debug:
+        msg: "{{ myname | capitalize }}" 
+
+    - name: Uppercase whole string
+      debug:
+        msg: "{{ myname | upper }}" 
+
+    - name: lowercase whole string
+      debug:
+        msg: "{{ myname | lower }}" 
+
+    - name: Print float 
+      debug:
+        msg: "{{ myfloat }}" 
+          #msg: "{{ myfloat | string}}"
+          
+          #- name: Print empty 
+          #debug:
+          # msg: "{{ heyEmpty | mandatory }}" 
+          
+    - name: Join apache_base_packages with apache_optional_package using union
+      debug:
+        msg: "{{ apache_base_packages | union(apache_optional_packages) }}"

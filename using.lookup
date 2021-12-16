@@ -1,0 +1,49 @@
+
+PLAY [Let's play with strings with breaks and strings without breaks shall we!] ***
+
+TASK [Gathering Facts] *********************************************************
+ok: [server5]
+
+TASK [Print empty] *************************************************************
+ok: [server5] => 
+  msg: ''
+
+TASK [print hosts] *************************************************************
+ok: [server5] => 
+  msg: |-
+    ##
+    # Host Database
+    #
+    # localhost is used to configure the loopback interface
+    # when the system is booting.  Do not change this entry.
+    ##
+    127.0.0.1       localhost
+    255.255.255.255 broadcasthost
+    ::1             localhost
+    172.180.12.17   myhost1.example.com
+    172.180.12.18   myhost2.example.com
+    172.180.12.19   myhost3.example.com
+
+TASK [Print string with breaks] ************************************************
+ok: [server5] => 
+  string_with_breaks: |-
+    This string
+    has several
+    line breaks.
+
+TASK [Print string without breaks] *********************************************
+ok: [server5] => 
+  string_without_breaks: |-
+    This string will not  contain any line breaks. Separated lines are joined  by a space character.
+
+TASK [Capitalize string] *******************************************************
+ok: [server5] => 
+  msg: Ben
+
+TASK [Print float] *************************************************************
+ok: [server5] => 
+  msg: 41.2
+
+PLAY RECAP *********************************************************************
+server5                    : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

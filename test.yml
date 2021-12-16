@@ -1,0 +1,3 @@
+--- 
+  - tasks: 
+      yaml: name=yum. - hosts: local

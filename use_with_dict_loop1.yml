@@ -1,0 +1,12 @@
+---
+  - name: play with dictionary data
+    hosts: all
+    tasks:
+
+      - name: Test dictionary data file from group_vars
+        vars:
+          password: "{{ lookup('password', 'credentials/' +  item.value.name + ' length=9') }}"
+        debug:
+          msg: 
+            - "{{ item.value.name | capitalize }} password is {{ password | password_hash('sha512') }}"
+        with_dict: "{{ users }}"

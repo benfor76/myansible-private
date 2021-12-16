@@ -1,0 +1,35 @@
+---
+- name: Get file size using state module
+  hosts: server5
+  vars_files: ./filtervars.yml
+  gather_facts: false
+  tasks:
+
+    - name: find the files
+      find:
+        path: "{{ lookup_file }}"
+        recurse: True
+      register: found_files
+
+    - set_fact:
+        file_list: "{{found_files['files'] | map(attribute='path') | list}}"
+   #- name: print file_list
+   #   debug:
+   #     var: file_list
+
+    - name: check for file size
+      stat: 
+        path: "{{ item }}"
+      loop: "{{ file_list }}"
+      register: file_size_list
+
+     #- name: print file size list
+     #debug: 
+     #   var: file_size_list
+
+    - name: print size of each file found
+      debug:
+        msg: "{{ item.stat.path }}, {{ ( item.stat.size / 1024 /1024 | int ) }}"
+          #msg: " {{ item.stat.size }}"
+      loop: "{{ file_size_list.results }}" 
+        #no_log: True

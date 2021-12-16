@@ -1,0 +1,11 @@
+---
+- name: Experiment with the the template plugin
+  hosts: server5
+  tasks:
+
+    - name: Test the template plugin
+      vars:
+        name: Ben
+        cuss: mother fucker
+      debug:
+        msg: "{{ lookup('template', './my.template.j2') }}"

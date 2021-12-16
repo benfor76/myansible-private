@@ -1,0 +1,9 @@
+---
+- name: Testing filters
+  hosts: server5
+  gather_facts: false
+  tasks:
+
+    - name: Use map and product filter
+      debug:
+        msg: "{{ ['cnn', 'espn', 'zimm'] | product(['com']) | map('join','.') | join(', ') }}"

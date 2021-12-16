@@ -1,0 +1,22 @@
+
+PLAY [Orchestration Example] ***************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server2]
+ok: [server1]
+
+TASK [Shutdown Server] *********************************************************
+fatal: [server1]: FAILED! => {
+    "msg": "Shutdown server1"
+}
+ok: [server2] => {
+    "msg": "Shutdown server2"
+}
+
+NO MORE HOSTS LEFT *************************************************************
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+server1                    : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+server2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   

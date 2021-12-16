@@ -1,0 +1,62 @@
+
+PLAY [Orchestration Example] ***************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server4]
+ok: [server2]
+ok: [server3]
+ok: [server1]
+
+TASK [Shutdown Server] *********************************************************
+fatal: [server1]: FAILED! => {
+    "msg": "Shutdown server1"
+}
+ok: [server2] => {
+    "msg": "Shutdown server2"
+}
+ok: [server3] => {
+    "msg": "Shutdown server3"
+}
+ok: [server4] => {
+    "msg": "Shutdown server4"
+}
+
+TASK [Upgrade Firmware] ********************************************************
+ok: [server2] => {
+    "msg": "Upgrade server2"
+}
+ok: [server3] => {
+    "msg": "Upgrade server3"
+}
+ok: [server4] => {
+    "msg": "Upgrade server4"
+}
+
+TASK [Start Server] ************************************************************
+ok: [server2] => {
+    "msg": "Start server2"
+}
+ok: [server3] => {
+    "msg": "Start server3"
+}
+ok: [server4] => {
+    "msg": "Start server4"
+}
+
+TASK [Verify Server] ***********************************************************
+ok: [server2] => {
+    "msg": "Verify server2"
+}
+ok: [server3] => {
+    "msg": "Verify server3"
+}
+ok: [server4] => {
+    "msg": "Verify server4"
+}
+
+PLAY RECAP *********************************************************************
+server1                    : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+server2                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+server3                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+server4                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

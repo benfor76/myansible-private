@@ -1,0 +1,39 @@
+---
+- name: Using map filter practice
+  hosts: server5
+  vars_files: ./filtervars.yml
+
+  tasks:
+
+    - name: find the files
+      find:
+        path: "{{ lookup_file }}"
+        recurse: True
+      register: found_files
+
+    - name: print found files
+      debug:
+        var: found_files
+
+    - set_fact:
+        list_files: "{{ found_files['files'] | map(attribute='path') | list}}"
+
+    - set_fact:
+        rel_path_files: "{{ list_files | map('relpath') | list }}"
+
+    - name: print listed files from custom fact
+      debug:
+        var: list_files
+        
+
+    - name: print listed files relpath from custom fact
+      debug:
+        var: rel_path_files
+
+    - set_fact:
+        get_hosts: "{{ query('file', './inventory/myhosts', errors='ignore') }}"
+
+
+    - name: print get hosts
+      debug:
+        var: get_hosts

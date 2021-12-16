@@ -1,0 +1,23 @@
+--- 
+
+  - name: "Orchestration Example"
+    hosts: logicservers
+    max_fail_percentage: 0
+    serial: 2
+    tasks:
+      - name: "Shutdown Server"
+        debug:
+          msg: "Shutdown {{ inventory_hostname }}"
+        failed_when: force_fail == 1
+
+      - name: "Upgrade Firmware"
+        debug:
+          msg: "Upgrade {{ inventory_hostname }}"
+
+      - name: "Start Server"
+        debug:
+          msg: "Start {{ inventory_hostname }}"
+
+      - name: "Verify Server"
+        debug:
+          msg: "Verify {{ inventory_hostname }}"

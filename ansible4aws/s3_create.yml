@@ -1,0 +1,28 @@
+---
+- name: create an s3 bucket
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars_files: 
+    - credentials.yml
+  vars:
+    ignore_nonexistent_bucket: true
+  #  bucketname: bentest
+  #  region: us-east-1
+  #  AWS_ACCESS_KEY_ID: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+  #  AWS_SECRET_ACCESS_KEY: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+  tasks:
+    - name: Ensure boto and boto3 modules are installed
+      pip:
+        name: "{{ item }}"
+      with_items:
+        - boto3
+        - botocore
+
+    - name: create an S3 bucket
+      amazon.aws.s3_bucket:
+        name: bentestansibles31976 
+        state: present
+        region: us-east-1 
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"

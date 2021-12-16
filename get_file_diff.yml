@@ -1,0 +1,37 @@
+---
+- name: What is the difference between to directories
+  hosts: server5
+  gather_facts: false
+  vars:
+    dir1: /Users/benforrester/gitlab-repo/myansible/files1_list
+    dir2: /Users/benforrester/gitlab-repo/myansible/files2_list
+  tasks:
+
+    - name: find files in directory 1
+      find:
+        path: "{{dir1}}"
+        recurse: true
+      register: found_files1
+
+    - name: find files in directory 2
+      find:
+        path: "{{dir2}}"
+        recurse: true
+      register: found_files2
+
+    - set_fact:
+        file1_list: "{{found_files1['files'] | map(attribute='path') | list}}"
+    - name: print file list 1
+      debug:
+        var: file1_list
+
+    - set_fact:
+        file2_list: "{{found_files2['files'] | map(attribute='path') | list}}"
+
+    - name: print file list 2
+      debug:
+        var: file2_list
+
+    - name: print the difference between file list 1 and file list2
+      debug:
+        msg: "{{ file1_list | union (file2_list) }}"

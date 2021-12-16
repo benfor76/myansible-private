@@ -1,0 +1,61 @@
+---
+- name: Test gathering and processing Network Information
+  hosts: server5
+    #  gather_facts: no
+  vars:
+    my_hosts:
+      - 192.168.12.11
+      - 192.168.12.21
+      - 192.168.12.31
+    my_network: 10.10.0.1/22
+  tasks:
+    
+    - name: Collect only 
+      setup:
+        gather_subset:
+          - '!all'
+          - network
+
+    - name: Show DNS
+      debug:
+        var: ansible_facts['dns']['nameservers']
+
+    - name: Show domain
+      debug:
+        var: ansible_facts['domain']
+
+    - name: IP v4 
+      debug:
+        var: ansible_facts['all_ipv4_addresses']
+          
+    - name: IP v4 
+      debug:
+        var: ansible_facts['all_ipv6_addresses']
+          
+    - name: FQDN 
+      debug:
+        var: ansible_facts['fqdn']
+
+    - name: hostname 
+      debug:
+        var: ansible_facts['hostname']
+
+    - name: using ipaddr part1 
+      debug:
+        msg: "{{my_hosts | ipaddr}}" 
+
+    - name: show variable length subnet mask 
+      debug:
+        msg: "{{ my_network | ipaddr('netmask') }}" 
+
+    - name: use dig and lookup google.com
+      debug:
+        msg: "{{ query('dig', 'google.com', 'qtype=MX') }}"
+
+    - name: use dnstxt and lookup cnn.com 
+      debug:
+        msg: "{{ lookup('dnstxt', ['cnn.com']) }}" 
+
+    - name: use dig and lookup cnn.com 
+      debug:
+        msg: "{{ query('dig', 'cnn.com', 'qtype=MX') }}" 

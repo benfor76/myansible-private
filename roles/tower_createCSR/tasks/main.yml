@@ -1,0 +1,8 @@
+---
+# tasks file for tower_createCSR
+
+- name: Calling the Generate private key task
+  include_tasks: generate_private_key.yml
+
+- name: Calling the Generate CSR task
+  include_tasks: generate_csr.yml

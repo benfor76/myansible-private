@@ -1,0 +1,6 @@
+---
+
+- name: running tower_createCSR role to create a .key file and certificate signing request file
+  hosts: localhost
+  roles:
+   - roles/tower_createCSR

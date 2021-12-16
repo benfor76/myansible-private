@@ -1,0 +1,11 @@
+---
+
+http_port: 8090
+maxRequestPerChile: 700
+proxy: proxy1.webserver.com
+apache_base_packages:
+  - httpd
+apache_optional_packages:
+  - git
+  - php
+  - php-mysqlnd

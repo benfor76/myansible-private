@@ -1,0 +1,13 @@
+---
+- name: Test the dict filter with loop
+  hosts: localhost
+  tasks:
+    - name: Test the dict filter with loop
+      vars: 
+        password: "{{ lookup('password', 'credentials/' +  item.value.name + 'length=9') }}"
+      debug:
+        msg: 
+          - "{{ item.value.name | capitalize }} password is  {{ password | password_hash('sha512') }}"
+          - "{{ item.value.shell}} will be used."
+      loop: "{{ lookup('dict', users) }}"
+      tags: [myloop]

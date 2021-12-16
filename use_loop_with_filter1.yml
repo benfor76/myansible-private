@@ -1,0 +1,11 @@
+---
+  - name: Experiment with loop using filter
+    hosts: all
+    tasks:
+
+      - name: Lets test the loop with filter
+        vars:
+          password: "{{ lookup('password', 'credentials/' + item + ' length=9') }}"
+        debug:
+          msg: "{{ item | capitalize }} password is {{ password | password_hash('sha512') }} "
+        loop: "{{ query('lines', 'cat users.txt') }}" 

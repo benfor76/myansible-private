@@ -1,0 +1,11 @@
+---
+- name: Testing file lookup pluginn 
+  hosts: server5
+  gather_facts: false
+  vars:
+    lookup_files: "{{ lookup('file', './files1_list/hosts1') }}"
+  tasks:
+
+    - name: Test file lookup plugin
+      debug: 
+        msg: "{{lookup_files}}"

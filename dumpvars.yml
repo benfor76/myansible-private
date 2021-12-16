@@ -1,0 +1,57 @@
+---
+
+- name: Dump vars
+  hosts: all
+  tasks:
+
+    - name: Show the user used by this play
+      debug:
+        var: ansible_user_id
+
+    - name: Use the pipe plugin
+      debug:
+        msg: "{{ query('pipe', 'ls files') }}"
+
+    - name: What is  http_port
+      debug:
+        var: http_port
+
+    - name: What is ansible_connection set to
+      debug:
+        var: ansible_connection
+
+    - name: What is ansible_host set to
+      debug:
+        var: ansible_host
+
+    - name: What is ansible_port
+      debug:
+        var: ansible_port
+
+    - name: What is ansible_user
+      debug:
+        var: ansible_user
+
+    - name: What is ansible_become_user
+      debug:
+        var: ansible_become_user
+
+    - name: What is ansile_python_interpreter
+      debug:
+        var: ansible_python_interpreter
+
+    - name: What is become 
+      debug:
+        var: become
+
+    - name: What is become_method
+      debug:
+        var: become_method
+
+    - name: What is become_user
+      debug:
+        var: become_user
+
+    - name: What is become_password
+      debug:
+        var: become_password

@@ -1,0 +1,21 @@
+---
+- name: Test filters and plugings part1
+  hosts: server5
+  gather_facts: false
+  vars:
+    my_football_team:
+  tasks:
+
+    - name: Test mandatory filter
+      debug:
+        var: "{{my_football_team }}" 
+        #var: "{{my_football_team | mandatory }}" 
+
+    - name: Test default filter
+      debug:
+        msg: "{{ my_football_team | default('Falcons', True) }}" 
+
+    - name: Test default omit filter
+      debug:
+        msg: "{{ my_football_team | default(omit) }}" 
+

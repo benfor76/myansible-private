@@ -1,0 +1,5 @@
+---
+
+http_port: 9090
+maxRequestPerChile: 900
+proxy: proxy9.webserver.com

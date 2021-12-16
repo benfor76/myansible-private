@@ -1,0 +1,50 @@
+---
+
+- name: Set custom fact
+  #set_fact:
+      #my_Required: "email:{{ email_addr }},{{ item.value | map('regex_replace', '^', 'DNS:') | join(',') }}"
+    #my_Required: > 
+    #               email:{{ email_addr 
+    #               }},{{ item.value | 
+    #               map('regex_replace', '^', 'DNS:') 
+    #               | join(',') }}
+    #with_dict: "{{ dns_server }}"
+  set_fact: 
+    dns_vars: "{{ item.value | map('regex_replace', '^', 'DNS:') | join(',') }}"
+  with_dict: "{{ dns_server }}"
+    #required_SAN: "email:{{ email_addr }},{{ dns_vars }}" 
+
+- name: show my_required
+  debug:
+    var: dns_vars
+
+- name: show dns_server
+  debug:
+    msg: "{{ dns_server | flatten}}"
+-
+ #- name: show extracted list of keys from a dictionary
+ # debug:
+ #   msg: "{{ }}"
+
+- name: show email address
+  debug:
+    msg: "email:{{ email_addr | default(omit) }}"
+
+#- name: Attempt to join 
+#  debug:
+    #msg: "email:{{ email_addr }},{{ dns_vars }}"
+
+
+#- name: show my_required
+#  debug:
+#    var: my_Required
+
+- name: Generate an OpenSSL Certificate Signing Request with Subject information
+  openssl_csr:
+    path: "{{ csr_path }}.{{  ansible_date_time.date }}"
+    privatekey_path: "{{ pk_path }}.{{ ansible_date_time.date }}"
+    organizational_unit_name: whatever
+    organization_name: diddo
+    common_name: "{{ cName }}"
+#   subject_alt_name: "{{ my_Required }}"
+    subject_alt_name: "email:{{ email_addr | default(omit) }},{{ dns_vars }}"

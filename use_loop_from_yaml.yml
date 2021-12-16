@@ -1,0 +1,10 @@
+---
+- name: Loop from a yaml data file
+  hosts: localhost
+  tasks: 
+    - name: Practice looping over a yaml file using the from_yaml filter
+      vars:
+        password: "{{ lookup('password', 'credentials/' + item.value.name + ' length=9') }}"
+      debug:
+        msg: "passwrd for {{ item.value.name }} is {{ password }} "
+      loop: "{{ query('file', 'user.yml') | from_yaml }}"

@@ -1,0 +1,294 @@
+1. How to regenerate the missing public key again from the private key, the following command will generate the public key of the private key provided with the -f option.
+
+$ ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
+Enter passphrase:
+Do this if the .pub gets corrupted
+
+ansible basics:
+1. verifying inventory:
+   use the ansible command to verify a machine's presence in the inventory
+   $ansible -i myhosts (hostname or groupname) --list-hosts
+
+ 
+2. List the hosts that the playbook will run on before running the play:
+   $ansible-playbook -i myhosts change.yml --list-hosts
+ 
+3. List the hosts and the group or host vars that would be applied to the hosts:
+   $ansible-inventory -i myhosts --list
+   or for yaml formatted output:
+   $ansible-inventory -i myhosts.specialvars --yaml --list 
+
+4. Use the command:
+   $ansible-doc -t lookup -l to obtain the complete list of available lookup plug-ins
+
+5. For details about the purpose of specific plug-ins and how to use them, run: 
+   $ansible-doc -t lookup PLUGIN_NAME
+
+6. $ansible-doc -t lookup file ->this is giving detailed information on the file plugin.
+
+7. To list strategies for play execution:
+   $ansible-doc -t strategy -l
+
+8. Iterating over nested lists:
+   The subelements filter creates a single list from a list with nested
+lists. 
+
+Note:
+The file plug-in reads files that are on the control node, not the managed host.
+
+Filter Examples:
+1. Two different package list variables that can be combined to create
+   a single list:
+   set_fact:
+     apache_package_list: "{{ apache_base_packages | union(apache_optional_packages) }}"
+2. Using the map filter, which is a loop filter on certain attributes:
+   - set_fact:
+        file1_list: "{{found_files1['files'] | map(attribute='path') | list}}"
+
+Coordinating Rolling Updates:
+Summary of Ansible's Failure Behavior
+1. If the serial keyword and the max_fail_percentage values are not set, all hosts
+   are run through the play in one batch. If all hosts fail, then the play fails.
+2. If the serial keyword is set, then hosts are run through the play in multiple batches   and the play fails if all hosts in any one batch fail.
+3. If max_fail_percentage keyword is set, then the play fails if more than that
+   percentage of hosts in a batch fail.
+If a play fails, all remaining plays in the playbook are aborted.
+
+Running a Task Once:
+In certain scenarios, you may only need to run a task once for an entire batch of hosts,rather than once for each host in the batch. To do so, add the run_once keyword to the 
+task with a Boolean true(or yes) value.
+
+Note: Setting the run_once: yes keyword causes a task to run once for each batch. If youonly need to run a task once for all hosts in a play, and the play has multiple batches,then you can add the following conditional to the task:
+when: inventory_hostname == ansible_play_hosts[0]
+This conditional runs the task only for the first host in the play.
+
+Using REST API:
+A client sends a request to a server element located at a Uniform Resource Identifier (URI) and performs operations with standard HTTP methods, such as GET, POST, PUT, and DELETE. 
+
+Ways to make REST reqeusts:
+1. curl -X GET https://tower.lab.example.com/api -k
+Note the output of the request is in JSON format.
+
+2. The Red Hat Ansible Tower API is browsable.
+   https://tower.lab.example.com/api from the browser.
+3. Use curl but pretty print the JSON into easier to read format.
+   curl -X GET https://tower.lab.example.com/api/v2/ -k -s | json_pp
+4. To examine what actions have been performec on the Ansible Tower server, you use the /api/v2/activity_stream/ URI. Make a GET request to that resource to retrieve the list of activity streams. 
+   curl -X GET https;//tower.lab.example.com/api/v2/activity_stream/ -k
+5. To authenticate and get authenticated information:
+   curl -X GET --user id:pw https://tower.lab.example.com/api/v2/activity_stream/ -k -s | json_pp
+Important: The output of the API may be paginated, as in the preceding example. Ansible Tower only returns a limited number of records for a particular request for performance reasons. The 'next' value gives the URI for the next page of results. If the value is null, you are on the last page. Likewise, the value of previous is the URI for the previous page of results, and if the value is null, then you are on the first page. 
+Media Type: application/json
+
+Launching a job template using the API:
+2 Steps: 1. access the job templated with the GET method to get information about any parameters or data you need to launch the job. 
+
+curl -X GET --user id:pw https://tower.lab.example.com/api/v2/job_templates/"Demo Job Template" -k -s | json_pp
+
+Then access the job with the POST method to launch the job. Notice that the ID and name of the id and name of the inventory and machine credential for the job is listed, and noextra information is needed to launch the job.
+Because no extra information is needed, the job can  be launched by accessing the URI with a POST method. 
+
+curl -X POST --user id:pw https://tower.lab.example.com/api/v2/job_templates/"Demo Job Template"/launch/ -k -s | json_pp
+The JSON formatted output of the example shows the ID number (i.e.72). You can use the job ID to retrieve updated status information, such as whether the job has completed. For job 72 use the URI /api/v2/jobs/72/, as indicated by the URL field in the preceding output. 
+curl -X GET --user id:pw https://tower.lab.example.com/api/v2/jobs/72/ -k -s | json_pp
+This report job status (success or failure), at what time the job finished. 
+
+To search for a job template (in example named Demo Job Template:
+curl -X GET --user id:pw https://tower.lab.example.com/api/v2/job_templateds/?name="A Job Template" -k -s | json_pp
+
+Then you can refer to the Job Template using its ID number and not its name in the URL, as follows:
+curl -X POST --user id:pw https://tower.lab.example.com/api/v2/job_templates/6/launch/ -k -s
+
+Launching a Job Using the API from an Ansible Playbook
+User the URI module: Do an ansible-doc uri to get details. 
+Vault the credentials:
+ansible-vault encrypt credential.yml
+new Vault password: you_password
+confirm new vault password: your_password
+
+GIT Basics:
+1. How to perform basic configuration of Git by setting the following user name, email address, and default push method using git
+   config
+   $ git config --global user.name 'Daniel George'
+   $ git config --global user.email daniel@lab.example.com
+   $ git config --global push.default simple
+
+2. To check the configuration using git config command
+   $ git config --global -l
+3. To clone a repo:
+   $ git clone http://git@git.lab.example:8081/git/my_webserver_DEV.git
+
+4. create a new branch name development
+   git branch development
+   git checkout development
+
+5. Git status to check status of your modifications:
+   git status
+
+6. to add files to the staging area
+   git add .
+
+7. commit changes:
+   git commit -m "A commit message"
+ 
+8. to push changes to remote repository using git push
+   git push --set-upstream origin development
+
+9. To change back to master
+   git checkout master
+
+10. Use git merge command to merge the latest changes from the development branch while your in the master branch
+    git merge development
+
+11. to push changes to master
+    git push
+
+12.  How to revert changs to that master branch returns to the initial status
+     git revert --no-edit HEAD
+
+13. Push reverted changes to the remote repo
+    git push
+
+How to activate the timer and the profile_tasks callback plug-ins, to get time metrics for each task and total execution time of a play
+1. edit the ansible.cfg
+   [defaults]
+   inventory=inventory.yml
+   remote_user=devops
+   callback_whitelist=timer, profile_tasks
+
+How to install softare: 
+- name: Ensure required packages are installed
+      yum:
+        name:
+          - httpd
+          - mod_ssl
+          - httpd-tools
+          - mariadb-server
+          - mariadb
+          - php
+          - php-mysqlnd
+        state: present
+
+How to enable services so that the software will start upon a reboot:
+- name: Ensure the services are enabled
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: True
+      loop:
+        - httpd
+        - mariadb
+
+
+Iterating over nested lists:
+See below variable that is a list with each entry in the list being a dictionary:
+
+users:
+- name: john
+    password: "{{ john_pass }}"
+    authorized:
+      - keys/john_key.pub
+    mysql:
+      password: other-mysql-password
+      hosts:
+         - "utility"
+    groups:
+      - wheel
+      - devops
+
+- name: Set authorized ssh key
+    authorized_key:
+      user: "{{ item.0.name }}"
+      key: "{{ lookup('file', item.1) }}"
+    loop: "{{ users | subelements('authorized') }}"
+
+Iterating over a list of lists
+- name: Remove build files
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop: "{{ list_of_lists | flatten(levels=1) }}"
+      vars:
+        list_of_lists:
+          - "{{ app_a_tmp_files }}"
+          - "{{ app_b_tmp_files }}"
+          - "{{ app_c_tmp_files }}"
+
+Iterating over a Dictionary
+users:
+  demo1:
+    name: Demo User 1
+    mail: demo1@example.com
+
+- name: Iterate over Users
+  user:
+    name: "{{ item.key }}"
+    comment: "{{ item.value.name }}"
+    state: present
+  loop: "{{ users | dict2items }}"
+
+
+
+- name: Set up multiple authorized keys
+      authorized_key:
+        user: developer
+        state: present
+        key: "{{ lookup('file', item) }}"
+      loop: "{{ public_key_lists | map(attribute='public_keys') | flatten }}"
+
+---
+public_key_lists:
+  - username: johnd
+    public_keys:
+      - pubkeys/johnd/id_rsa.pub
+      - pubkeys/johnd/laptop_rsa.pub
+
+Use ipaddr filter to narrow down valid IPs if it receives no other parameter
+EXAMPLE:
+server_address: "{{ ansible_facts.default_ipv4.address | ipaddr }}"
+
+To resolve the reverse DNS entry, provide the revdns parameter in the ipaddr filter:
+address_dns: "{{ server_address | ipaddr('revdns') }}"
+
+Transform the network/netmask to a CIDR equivalent value of 172.25.250.0/24
+cidr: "{{ net_mask | ipaddr('net') }}"
+
+Get broadcast address for a network definition:
+broadcast: "{{ cidr | ipaddr('broadcast') }}"
+
+Use the dig lookup plug-in to set the value of the dig_record variable to the MX record associated with the example.com domain
+dig_record: "{{ lookup('dig', 'example.com', 'qtype=MX') }}"
+
+Example of using the template lookup
+firewall_rules: "{{ lookup('template', 'file_name.j2) }}"
+
+To convert fron a YAML string to a data structure
+firewall_rules: "{{ lookup('template', 'file_name.j2) | from_yaml }}"
+
+
+Graning user admin role to a team:
+tower-cli role grant --user 'ophelia' --target-team 'Operations' --type 'admin'
+
+How to create another super user for tower:
+awx-manage createsuperuser
+
+How to change the pw for superuser:
+awx-manage changepassword admin2
+
+
+Tower-cli:
+You will generally need to set at least three configuration options–host, username, and password–which correspond 
+to the location of your Ansible Tower instance and your credentials to authenticate to Tower.
+tower-cli config host tower.lab.example.com
+tower-cli config username admin 
+tower-cli config password redhat 
+
+create a user:
+tower-cli user create --username=ben --first-name=Ben --last-name=Forrester --email=ben_forrester@hotmail.com --password=test123
+
+create a new team:
+tower-cli team create --name 'Devops' --description 'Devops Team' --organization 'Default'
+
+Add users to a team:
+tower-cli role grant --user 'robert' ---target-team 'Devops' --type 'member'
+tower-cli role grant --user 'anny' ---target-team 'Devops' --type 'member'

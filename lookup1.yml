@@ -1,0 +1,10 @@
+---
+- name: Testing Plugins
+  hosts: server5
+  vars:
+    myhosts1: "{{ lookup('file', './files/hosts') }}"
+  tasks:
+
+    - name: Print myhosts1
+      debug:
+        var: myhosts1

@@ -1,0 +1,13 @@
+users:
+  demo1:
+    name: nikki
+    shell: /bin/bash
+  demo2:
+    name: ethan
+    shell: /bin/zsh
+  demo3:
+    name: caden
+    shell: /bin/bash
+  demo4:
+    name: ben
+    shell: /bin/bash

@@ -1,0 +1,7 @@
+---
+
+- name: "Generate private key"
+  openssl_privatekey:
+    path: "{{ pk_path }}.{{ ansible_date_time.date }}"
+    type: RSA
+    size: 2048

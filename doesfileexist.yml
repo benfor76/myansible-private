@@ -1,0 +1,15 @@
+---
+- name: see if file exists before you do something else
+  hosts: localhost
+  tasks:
+
+    - name: Let's stat a file to see if it's there.
+      stat:
+        path: ./yes
+      register: st
+      delegate_to: localhost
+
+    - name: print var
+      debug:
+        var: st
+      when: st.stat.exists == false

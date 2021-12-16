@@ -1,0 +1,12 @@
+---
+  - name: "LinkedIN Learning Ansible Challenge 1"
+    hosts: localhost
+    tasks:
+      
+      - name: "test reachability"
+        ping:
+
+      - name: "use the find module"
+        find:
+          path: ~/ansible_code/Challenges 
+          file_type: file

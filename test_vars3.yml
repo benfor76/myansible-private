@@ -1,0 +1,40 @@
+- name: Testing filters and lookups part3
+  hosts: server5
+  gather_facts: no
+  tasks:
+
+    - name: use the sum filter
+      debug:
+        msg: "{{math_set1 | sum }}"
+      vars:
+        math_set1: [1,2,3,4,5]
+
+    - name: use the max filter
+      debug:
+        msg: "{{math_set2 | max}}" 
+      vars:
+        math_set2: [5, 6, 9, 1, 4, 8]
+
+    - name: use the min filter
+      debug:
+        msg: "{{math_set3 | min}}"
+      vars:
+        math_set3: [5, 9, 3, 6, 2]
+
+    - name: Use the Length, first and last filter
+      debug:
+        msg: "{{ math_set4 | length }}"
+      vars:
+        math_set4: [1, 5, 7, 2, 9]
+
+    - name: Use the first filter 
+      debug:
+        msg: "{{math_set5 | first }}"
+      vars:
+        math_set5: [2,4,9,5] 
+
+    - name: Use the last filter
+      debug:
+        msg: "{{math_set6 | last}}"
+      vars: 
+        math_set6: [5, 6, 7, 8, 9]

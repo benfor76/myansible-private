@@ -1,0 +1,39 @@
+---
+- name: Test2 of using lookup plugin
+  hosts: server5
+  vars:
+    var_lookup: "{{ lookup('file', './howto.txt') }}"
+  vars_files: ./filtervars.yml
+  tasks:
+
+    - name: print var_lookup
+      debug:
+        var: var_lookup
+   
+    - name: find all files in lookup_file variable 
+      find:
+        paths: "{{ lookup_file }}"
+        recurse: yes
+      register: files_found
+
+    - name: print registered variable
+      debug:
+        var: files_found
+       
+    - name: print lookup_file
+      debug:
+        var: lookup_file
+
+    - set_fact:
+        retrieve_files: "{{files_found['files'] | map(attribute='path') | list }}"
+
+    - set_fact:
+        relative_path: "{{retrieve_files | map('relpath', lookup_file) | list }}"
+
+    - name: print retrieved files
+      debug:
+        var: retrieve_files
+
+    - name: print relative path of files found
+      debug:
+        var: relative_path

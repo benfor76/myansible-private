@@ -1,0 +1,16 @@
+---
+- name: Test the URI module with GitHub
+  hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: Test the URI module with my GitHub account
+      uri:
+        url: https://api.github.com/repos/benfor76/testproject
+        return_content: yes
+      register: my_result
+      failed_when: "'SUCCESS' not in response.content"
+
+    - name: print my result
+      debug:
+        var: my_result.content

@@ -1,0 +1,10 @@
+---
+- name: Play with Lineinfile module
+  hosts: all
+  tasks:
+
+    - name: Update file
+      lineinfile:
+        path: ./testfile.txt
+        line: whazaaappp baby!
+        create: yes
