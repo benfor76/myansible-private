@@ -44,6 +44,3 @@
     - debug:
         msg: "Drive safely!"
       when: '"Overcast" in got_weather.json.current.condition.text'
-
-    - debug:
-        var: got_weather
