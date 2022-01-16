@@ -9,18 +9,18 @@
 
     - name: find files in directory 1
       find:
-        path: "{{dir1}}"
+        path: "{{ dir1 }}"
         recurse: true
       register: found_files1
 
     - name: find files in directory 2
       find:
-        path: "{{dir2}}"
+        path: "{{ dir2 }}"
         recurse: true
       register: found_files2
 
     - set_fact:
-        file1_list: "{{found_files1['files'] | map(attribute='path') | list}}"
+        file1_list: "{{ found_files1['files'] | map(attribute='path') | list }}"
     - name: print file list 1
       debug:
         var: file1_list
