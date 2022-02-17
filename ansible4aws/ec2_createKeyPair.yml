@@ -1,0 +1,24 @@
+---
+- name: create key pair for EC2
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    region: us-east-1
+    keyname: aapmeshec2
+  tasks:
+    - name: create key pair
+      ec2_key:
+        region: "{{ region }}"
+        name: "{{ keyname }}"
+      register: mykey
+
+    - name: Print key pair 
+      debug: var=mykey
+
+    - name: Write to file 
+      copy: 
+        content: "{{ mykey.key.private_key }}" 
+        dest: "~/.ssh/{{ keyname }}.pem"
+        mode: 0600
+      when: mykey.changed
