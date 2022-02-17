@@ -1,7 +1,7 @@
 ---
 - name: create key pair for EC2
   hosts: localhost
-  connection: local
+  #connection: local
   gather_facts: no
   vars_files: 
     - credentials.yml
