@@ -5,7 +5,7 @@
   gather_facts: no
   vars:
     region: us-east-1
-    keyname: aapmeshec2
+    keyname: aap-mesh-ec2
   tasks:
     - name: create key pair
       ec2_key:
