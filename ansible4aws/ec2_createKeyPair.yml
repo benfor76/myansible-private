@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  vars_files: 
+    - credentials.yml
   vars:
     region: us-east-1
     keyname: aap-mesh-ec2
@@ -11,6 +13,8 @@
       ec2_key:
         region: "{{ region }}"
         name: "{{ keyname }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
       register: mykey
 
     - name: Print key pair 
