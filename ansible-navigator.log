@@ -840,3 +840,5 @@
 211216085555.858 ERROR 'ansible_navigator.main' Configuration failed, using default log file location: /home/benforrester/myansible-private/ansible-navigator.log. Log level set to debug
 211216085555.858 INFO 'ansible_navigator.main' Review the hints and log file to see what went wrong: /home/benforrester/myansible-private/ansible-navigator.log
 211216085802.330 WARNING 'ansible_navigator.run' Dirty exit, killing the pid
+220210022833.833 WARNING 'ansible_navigator.image_manager.puller._log_message' Image inspection failed, image assumed to be corrupted or missing
+220210022834.396 ERROR 'ansible_navigator.image_manager.puller._log_message' Execution environment pull failed
