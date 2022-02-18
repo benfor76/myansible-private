@@ -1,7 +1,7 @@
 ---
 - name: create key pair for EC2
-  hosts: localhost
-  connection: local
+  hosts: all
+  #connection: local
   gather_facts: true
   become: false
   vars_files: 
@@ -22,19 +22,19 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
       register: mykey
+      delegate_to: localhost
 
     - name: Print key pair 
       debug: var=mykey.key.private_key
 
-    #- name: Write to file 
-    # copy: 
-    #   content: "{{ mykey.key.private_key }}" 
-    #   #dest: "/tmp/{{ keyname }}.pem"
+    - name: Write to file 
+      copy: 
+        content: "{{ mykey.key.private_key }}" 
+        dest: "/tmp/{{ keyname }}.pem"
     #   dest: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
-    #   mode: 0600
-    # when: mykey.changed
-    # delegate_to: local
-    # ignore_errors: true
+        mode: 0600
+      when: mykey.changed
+      ignore_errors: true
 
     - name: show user used by this play
       debug:
