@@ -1,7 +1,6 @@
 ---
 - name: create key pair for EC2
   hosts: localhost
-  #connection: local
   gather_facts: true
   become: false
   vars_files: 
@@ -10,8 +9,6 @@
     ansible_user_id: bforrest
     region: us-east-1
     keyname: aap-mesh-ec2
-    #allow_world_readable_tmpfiles: true
-    #admin_users: root
   tasks:
     - name: show user used by this play
       debug:
@@ -28,18 +25,9 @@
     - name: Print key pair 
       debug: var=mykey
 
-    #- name: whoami test
-    #  shell: 'whoami'
-    #  register: iam
-    #  become_user: bforrest
-
-    #- name: Print who I am 
-    #  debug: var=iam
-
-    #- name: Write to file 
-    #  copy: 
-    #    content: "{{ mykey.key.private_key }}" 
-    #    dest: "~/.ssh/{{ keyname }}.pem"
-    #    mode: 0600
-    #  when: mykey.changed
-    #  become_user: bforrest
+    - name: Write to file 
+      copy: 
+        content: "{{ mykey.key.private_key }}" 
+        dest: "~/.ssh/{{ keyname }}.pem"
+        mode: 0600
+      when: mykey.changed
