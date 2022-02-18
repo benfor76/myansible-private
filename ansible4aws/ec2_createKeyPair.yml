@@ -27,3 +27,4 @@
         mode: 0600
       when: mykey.changed
       become: true
+      become_method: sudo
