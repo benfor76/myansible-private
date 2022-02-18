@@ -4,6 +4,7 @@
   #connection: local
   gather_facts: true
   become: false
+  ansible_user_id: bforrest
   vars_files: 
     - credentials.yml
   vars:
