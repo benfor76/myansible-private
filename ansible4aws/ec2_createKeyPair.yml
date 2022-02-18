@@ -28,7 +28,4 @@
         dest: "~/.ssh/{{ keyname }}.pem"
         mode: 0600
       when: mykey.changed
-      allow_world_readable_tmpfiles: true
-      admin_users: root
-      become: true
-      become_method: sudo
+      #become_user: bforrest
