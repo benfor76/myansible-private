@@ -4,10 +4,10 @@
   #connection: local
   gather_facts: true
   become: false
-  ansible_user_id: bforrest
   vars_files: 
     - credentials.yml
   vars:
+    ansible_user_id: bforrest
     region: us-east-1
     keyname: aap-mesh-ec2
     #allow_world_readable_tmpfiles: true
