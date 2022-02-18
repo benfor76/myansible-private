@@ -32,6 +32,7 @@
         dest: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
         mode: 0600
       when: mykey.changed
+      delegate_to: local
       ignore_errors: true
 
     - name: show user used by this play
