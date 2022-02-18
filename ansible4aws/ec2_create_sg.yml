@@ -1,5 +1,5 @@
 ---
-- name: Create AWS Service Group in East for AAP Mesh East
+- name: Create AWS Security Group in East for AAP Mesh East
   hosts: localhost
   connection: local
   gather_facts: no
