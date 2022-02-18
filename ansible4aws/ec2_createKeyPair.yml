@@ -24,6 +24,10 @@
 
     - name: whoami test
       shell: whoami
+      register: iam
+
+    - name: Print who I am 
+      debug: var=iam
 
     #- name: Write to file 
     #  copy: 
