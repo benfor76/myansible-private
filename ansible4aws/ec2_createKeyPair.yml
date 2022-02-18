@@ -8,6 +8,8 @@
   vars:
     region: us-east-1
     keyname: aap-mesh-ec2
+    allow_world_readable_tmpfiles: true
+    admin_users: root
   tasks:
     - name: create key pair
       ec2_key:
@@ -26,5 +28,7 @@
         dest: "~/.ssh/{{ keyname }}.pem"
         mode: 0600
       when: mykey.changed
-   #   become: true
-   #   become_method: sudo
+      allow_world_readable_tmpfiles: true
+      admin_users: root
+      become: true
+      become_method: sudo
