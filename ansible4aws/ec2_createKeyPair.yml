@@ -23,7 +23,7 @@
       debug: var=mykey
 
     - name: whoami test
-      shell: whoami
+      shell: 'whoami'
       register: iam
 
     - name: Print who I am 
