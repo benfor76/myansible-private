@@ -24,17 +24,17 @@
       register: mykey
 
     - name: Print key pair 
-      debug: var=mykey
+      debug: var=mykey.key.private_key
 
-    - name: Write to file 
-      copy: 
-        content: "{{ mykey.key.private_key }}" 
-        #dest: "/tmp/{{ keyname }}.pem"
-        dest: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
-        mode: 0600
-      when: mykey.changed
-      delegate_to: local
-      ignore_errors: true
+    #- name: Write to file 
+    # copy: 
+    #   content: "{{ mykey.key.private_key }}" 
+    #   #dest: "/tmp/{{ keyname }}.pem"
+    #   dest: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
+    #   mode: 0600
+    # when: mykey.changed
+    # delegate_to: local
+    # ignore_errors: true
 
     - name: show user used by this play
       debug:
