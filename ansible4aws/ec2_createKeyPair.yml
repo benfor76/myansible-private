@@ -25,6 +25,7 @@
     - name: whoami test
       shell: 'whoami'
       register: iam
+      become_user: bforrest
 
     - name: Print who I am 
       debug: var=iam
