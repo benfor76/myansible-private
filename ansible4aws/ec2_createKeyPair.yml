@@ -2,7 +2,6 @@
 - name: create key pair for EC2
   hosts: all
   gather_facts: true
-  #become: false
   vars_files: 
     - credentials.yml
   vars:
