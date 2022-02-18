@@ -31,3 +31,7 @@
         dest: "~/.ssh/{{ keyname }}.pem"
         mode: 0600
       when: mykey.changed
+
+    - name: show user used by this play
+      debug:
+        var: ansible_user_id
