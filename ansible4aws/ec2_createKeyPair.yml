@@ -28,4 +28,4 @@
         dest: "~/.ssh/{{ keyname }}.pem"
         mode: 0600
       when: mykey.changed
-      #become_user: bforrest
+      become_user: bforrest
