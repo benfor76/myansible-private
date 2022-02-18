@@ -8,8 +8,8 @@
   vars:
     region: us-east-1
     keyname: aap-mesh-ec2
-    allow_world_readable_tmpfiles: true
-    admin_users: root
+    #allow_world_readable_tmpfiles: true
+    #admin_users: root
   tasks:
     - name: create key pair
       ec2_key:
