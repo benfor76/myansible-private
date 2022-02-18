@@ -1,0 +1,31 @@
+---
+- name: Create AWS Service Group in East for AAP Mesh East
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    #East Region us-east-1
+    region: us-east-1
+    #Your IP address
+    allowed_ip: 73.54.219.219
+  tasks:
+    - name: create security group
+      ec2_group:
+        region: "{{ region }}" 
+      #Your secruity group name
+        name: aap_mesh_east 
+        description: Security group for East AAP mesh hosts
+        rules:
+          # allow ssh access from you ip address
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: "{{ allowed_ip }}"
+          # allow http access from anywhere
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+        rules_egress:
+          - proto: all
+            cidr_ip: 0.0.0.0/0
