@@ -2,11 +2,10 @@
 - name: create key pair for EC2
   hosts: all
   gather_facts: true
-  become: false
+  #become: false
   vars_files: 
     - credentials.yml
   vars:
-    #ansible_user_id: bforrest
     region: us-east-1
     keyname: aap-mesh-ec2
   tasks:
