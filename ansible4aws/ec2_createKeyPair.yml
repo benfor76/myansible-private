@@ -29,7 +29,8 @@
     - name: Write to file 
       copy: 
         content: "{{ mykey.key.private_key }}" 
-        dest: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
+        dest: "/home/{{ ansible_user_id }}/{{ keyname }}.pem"
+        #dest: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
         mode: 0600
       when: mykey.changed
       delegate_to: local
