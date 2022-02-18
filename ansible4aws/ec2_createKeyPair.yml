@@ -22,10 +22,13 @@
     - name: Print key pair 
       debug: var=mykey
 
-    - name: Write to file 
-      copy: 
-        content: "{{ mykey.key.private_key }}" 
-        dest: "~/.ssh/{{ keyname }}.pem"
-        mode: 0600
-      when: mykey.changed
-      become_user: bforrest
+    - name: whoami test
+      shell: whoami
+
+    #- name: Write to file 
+    #  copy: 
+    #    content: "{{ mykey.key.private_key }}" 
+    #    dest: "~/.ssh/{{ keyname }}.pem"
+    #    mode: 0600
+    #  when: mykey.changed
+    #  become_user: bforrest
