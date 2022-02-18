@@ -30,8 +30,7 @@
     - name: Write to file 
       copy: 
         content: "{{ mykey.key.private_key }}" 
-        dest: "/tmp/{{ keyname }}.pem"
-    #   dest: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
+        dest: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
         mode: 0600
       when: mykey.changed
       ignore_errors: true
