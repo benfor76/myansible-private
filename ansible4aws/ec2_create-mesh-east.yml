@@ -4,7 +4,7 @@
   connection: local
   gather_facts: no
   vars_files: 
-    - credentials.ym
+    - credentials.yml
   vars:
     #Your region
     region: us-east-1
