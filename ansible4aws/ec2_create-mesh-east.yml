@@ -3,12 +3,16 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  vars_files: 
+    - credentials.ym
   vars:
     #Your region
     region: us-east-1
   tasks:
     - name: EC2 basic provisioning
       ec2:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
         region: "{{ region }}"
         key_name: aap-mesh-ec2
         instance_type: t2.micro
