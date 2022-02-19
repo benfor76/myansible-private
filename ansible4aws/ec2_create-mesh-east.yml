@@ -16,11 +16,8 @@
         region: "{{ region }}"
         key_name: aap-mesh-ec2
         instance_type: t2.micro
-        image: ami-0b0af3577fe5e3532
+        image_id: ami-0b0af3577fe5e3532
         wait: yes
-        group: aap_mesh_east
-        instance_tags:
-          group: mesh_east
-        exact_count: 2
-        count_tag:
-          group: mesh_east
+        security_group: aap_mesh_east
+        tags:
+          Environment: Testing
