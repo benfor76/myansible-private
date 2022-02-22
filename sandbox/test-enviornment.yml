@@ -6,3 +6,7 @@
     - name: Test using ansible_env
       debug:
         msg: "{{ ansible_env }}"
+
+    - name: Print Inventory ID 
+      debug:
+        msg: "{{ ansible_env.INVENTORY_ID }}"
