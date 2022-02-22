@@ -7,9 +7,13 @@
  # tasks:
 ---
 - hosts: all
+  connection: local
+  gather_facts: false
   tasks:
-    - debug:
-        msg: "{{ ansible_env }}"
+    - name: Setup
+      setup:
+        gather_subset:
+          - "!all"
     
     - name: Test using ansible_env
       debug:
