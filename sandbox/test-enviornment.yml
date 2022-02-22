@@ -1,8 +1,16 @@
----
-- name: Test playing around with the ansible_env var
-  hosts: all
-  tasks:
 
+
+
+#---
+#- name: Test playing around with the ansible_env var
+ # hosts: all
+ # tasks:
+---
+- hosts: all
+  tasks:
+    - debug:
+        msg: "{{ ansible_env }}"
+    
     - name: Test using ansible_env
       debug:
         msg: "{{ ansible_env }}"
