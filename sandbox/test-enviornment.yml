@@ -1,0 +1,8 @@
+---
+- name: Test playing around with the ansible_env var
+  hosts: all
+  tasks:
+
+    - name: Test using ansible_env
+      debug:
+        msg: "{{ ansible_env }}"
