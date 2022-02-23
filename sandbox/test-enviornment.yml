@@ -3,14 +3,14 @@
 
 ---
 - name: Test playing around with the ansible_env var
-  #connection: local
+  connection: local
   hosts: all
   gather_facts: true
   tasks:
-    - name: Setup
-      setup:
-        gather_subset:
-          - "!all"
+    #- name: Setup
+    #  setup:
+    #    gather_subset:
+    #      - "!all"
     
     - name: Test using ansible_env
       debug:
