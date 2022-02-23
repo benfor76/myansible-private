@@ -10,10 +10,10 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: Setup
-      setup:
-        gather_subset:
-          - "!all"
+#    - name: Setup
+#      setup:
+#        gather_subset:
+#          - "!all"
     
     - name: Test using ansible_env
       debug:
