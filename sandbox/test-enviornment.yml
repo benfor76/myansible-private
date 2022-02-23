@@ -1,14 +1,11 @@
 
 
 
-#---
-#- name: Test playing around with the ansible_env var
- # hosts: all
- # tasks:
 ---
-- hosts: all
-  connection: local
-  #gather_facts: true
+- name: Test playing around with the ansible_env var
+  #connection: local
+  hosts: all
+  gather_facts: true
   tasks:
 #    - name: Setup
 #      setup:
