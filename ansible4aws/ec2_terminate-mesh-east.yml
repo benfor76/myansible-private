@@ -25,9 +25,9 @@
     #    tags:
     #      Environment: Testing
 
-    - name: Create instance dictionary
-      set_fact:
-        ec2instances: "{{ get_ec2info.stdout | from_json }}"
+    #- name: Create instance dictionary
+    # set_fact:
+    #   ec2instances: "{{ get_ec2info.stdout | from_json }}"
     
     #- name: Print out instance ID's
     #  debug:
