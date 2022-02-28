@@ -34,4 +34,4 @@
     #    msg: "{{ ec2instances }}"
     - name: Print EC2 instance information
       debug: 
-        var: get_ec2info.instance_id
+        var: get_ec2info.instances.instance_id
