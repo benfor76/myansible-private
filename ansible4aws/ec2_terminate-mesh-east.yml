@@ -11,12 +11,12 @@
   tasks:
     - name: Gather EC2 instance information
       ec2_instance_info:
-      register: get_ec2info
     #- name: EC2 basic provisioning
     #  ec2_instance:
-    #    aws_access_key: "{{ aws_access_key }}"
-    #    aws_secret_key: "{{ aws_secret_key }}"
-    #    region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        region: "{{ region }}"
+      register: get_ec2info
     #    key_name: aap-mesh-ec2
     #    instance_type: t2.micro
     #    image_id: ami-0b0af3577fe5e3532
