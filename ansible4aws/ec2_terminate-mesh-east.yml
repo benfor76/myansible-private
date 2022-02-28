@@ -25,13 +25,13 @@
     #    tags:
     #      Environment: Testing
 
-    - name: Create instance dictionary
-      set_fact:
-        ec2instances: "{{ get_ec2info | json_query('*instance_id') }}"
+    #- name: Create instance dictionary
+    #  set_fact:
+    #    ec2instances: "{{ get_ec2info | json_query('*instance_id') }}"
     
-    - name: Print out instance ID's
-      debug:
-        msg: "{{ ec2instances }}"
+    #- name: Print out instance ID's
+    #  debug:
+    #    msg: "{{ ec2instances }}"
     - name: Print EC2 instance information
       debug: 
-        var: get_ec2info.instances.instance_id
+        var: get_ec2info.instance_id
