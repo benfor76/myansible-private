@@ -26,4 +26,4 @@
     #      Environment: Testing
     - name: Print EC2 instance information
       debug: 
-        var: get_ec2info
+        var: get_ec2info.json.instances.instance_id
