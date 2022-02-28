@@ -45,6 +45,9 @@
         msg: "Drive safely!"
       when: '"Overcast" in got_weather.json.current.condition.text'
 
+    - debug:
+        var: got_weather
+
     #- debug:
     #    msg: "A little shade in your day today :)"
     #  when: '"Partly cloudy" in got_weather.json.current.condition.text'
