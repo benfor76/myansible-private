@@ -5,7 +5,7 @@
   tasks:
 
     - name: List installed ansible package using yum command and not yum module
-      commad: sudo /usr/bin/yum search yum-utils
+      commad: /usr/bin/yum search yum-utils
       register: result
 
     - name: Print result
