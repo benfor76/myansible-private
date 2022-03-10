@@ -1,7 +1,7 @@
 ---
 - name: Testing permissions on inventory
   hosts: all
-  gather_facts: True
+  gather_facts: false
   tasks:
 
     - name: List installed ansible package
