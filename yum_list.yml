@@ -1,0 +1,14 @@
+---
+- name: Testing permissions on inventory
+  hosts: all
+  gather_facts: True
+  tasks:
+
+    - name: List installed ansible package
+      yum:
+        list: ansible
+      register: result
+
+    - name: Print result
+      debug:
+        var: register
