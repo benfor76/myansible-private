@@ -6,7 +6,7 @@
 
     - name: List installed ansible package
       yum:
-        list: ansible
+        list: yum-utils
       register: result
 
     - name: Print result
