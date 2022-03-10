@@ -6,7 +6,6 @@
 
     - name: List installed ansible package using yum command and not yum module
       shell: sudo /usr/bin/yum search yum-utils
-        
       register: result
 
     - name: Print result
