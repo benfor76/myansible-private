@@ -11,4 +11,4 @@
 
     - name: Print result
       debug:
-        var: register
+        var: result
