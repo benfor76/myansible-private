@@ -1,0 +1,14 @@
+---
+- name: Testing permissions on inventory
+  hosts: all
+  gather_facts: false
+  tasks:
+
+    - name: List installed ansible package using yum command and not yum module
+      shell: 'yum search yum-utils'
+        
+      register: result
+
+    - name: Print result
+      debug:
+        var: result
