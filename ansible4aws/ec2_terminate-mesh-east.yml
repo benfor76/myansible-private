@@ -15,4 +15,4 @@
         aws_secret_key: "{{ aws_secret_key }}"
         region: "{{ region }}"
         state: 'absent'
-        instance_ids: '{{ ec2.instance_ids }}'
+        instance_ids: '{{ instance_id }}'
