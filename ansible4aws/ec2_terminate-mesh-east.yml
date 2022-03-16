@@ -9,32 +9,7 @@
     #Your region
     region: us-east-1
   tasks:
-    - name: Gather EC2 instance information
-      ec2_instance_info:
-    #- name: EC2 basic provisioning
-    #  ec2_instance:
-        aws_access_key: "{{ aws_access_key }}"
-        aws_secret_key: "{{ aws_secret_key }}"
-        region: "{{ region }}"
-        filters:
-        
-      register: get_ec2info
-    #    key_name: aap-mesh-ec2
-    #    instance_type: t2.micro
-    #    image_id: ami-0b0af3577fe5e3532
-    #    wait: yes
-    #    security_group: aap_mesh_east
-    #    tags:
-    #      Environment: Testing
-
-    #- name: Create instance dictionary
-    # set_fact:
-    #   ec2instances: "{{ get_ec2info.stdout | from_json }}"
-    
-    #- name: Print out instance ID's
-    #  debug:
-    #    msg: "{{ ec2instances }}"
-    - name: Print EC2 instance information
-      debug: 
-        msg: "{{ get_ec2info.instances.architecture }}"
-        #msg: "{{ ec2instances.instances[0].instance_id }}"
+    - name: Terminate instances that were previously launched
+      amazon.aws.ec2:
+        state: 'absent'
+        instance_ids: '{{ ec2.instance_ids }}'
