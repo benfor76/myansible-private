@@ -11,5 +11,8 @@
   tasks:
     - name: Terminate instances that were previously launched
       amazon.aws.ec2:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        region: "{{ region }}"
         state: 'absent'
         instance_ids: '{{ ec2.instance_ids }}'
