@@ -9,7 +9,8 @@
     #East Region us-east-1
     region: us-east-1
     #Your IP address
-    allowed_ip: 73.54.219.219/32
+    #allowed_ip: 73.54.219.219/32
+    allowed_ip: "{{ my_IP }}/{{ my_CIDR }}"
   tasks:
     - name: create security group
       ec2_group:
