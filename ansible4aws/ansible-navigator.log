@@ -101,3 +101,13 @@
 220316211202.551 ERROR 'ansible_navigator.image_manager.puller._log_message' Execution environment pull failed
 220316211205.932 ERROR 'ansible_navigator.image_manager.puller._log_message' Execution environment pull failed
 220316211227.954 ERROR 'ansible_navigator.image_manager.puller._log_message' Execution environment pull failed
+220316232059.159 ERROR 'ansible_navigator.actions.doc._run_runner' Error occurred while fetching doc for plugin amazon.aws: '[WARNING]: module amazon.aws not found in: /home/bforrest/repos/myansible-priva
+te/ansible4aws/library:/home/runner/.ansible/plugins/modules:/usr/share/ansible
+/plugins/modules:/usr/lib/python3.8/site-packages/ansible/modules
+'
+220316232129.414 ERROR 'ansible_navigator.actions.doc._run_runner' Error occurred while fetching doc for plugin amazon.aws.ec2: '[DEPRECATION WARNING]: amazon.aws.ec2 has been deprecated. The ec2 module is 
+based upon a deprecated version of the AWS SDKs and is deprecated in favor of 
+the ec2_instance module. Please update your tasks. This feature will be removed
+ from amazon.aws in version 4.0.0. Deprecation warnings can be disabled by 
+setting deprecation_warnings=False in ansible.cfg.
+'

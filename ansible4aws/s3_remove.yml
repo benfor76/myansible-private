@@ -18,7 +18,7 @@
 
     - name: remove the S3 bucket
       amazon.aws.s3_bucket:
-        name:  {{ bucket_name }}
+        name:  "{{ bucket_name }}"
         state: absent
         region: us-east-1 
         aws_access_key: "{{ aws_access_key }}"
