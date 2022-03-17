@@ -1,0 +1,20 @@
+---
+- name: Remove AWS Security Group in East for AAP Mesh East
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files: 
+    - credentials.yml
+  vars:
+    #East Region us-east-1
+    region: us-east-1
+  tasks:
+    - name: Remove security group
+      ec2_group:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        region: "{{ region }}" 
+      #Your secruity group name
+        name: "{{ sg_name }}" 
+        description: Security group for East AAP mesh hosts
+        state: absent
