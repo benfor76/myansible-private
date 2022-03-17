@@ -1,0 +1,28 @@
+---
+- name: Remove key pair for EC2
+  hosts: all
+  gather_facts: true
+  vars_files: 
+    - credentials.yml
+  vars:
+    region: us-east-1
+    #keyname: aap-mesh-ec2
+  tasks:
+    - name: show user used by this play
+      debug:
+        var: ansible_user_id
+
+    - name: Remove key pair
+      ec2_key:
+        region: "{{ region }}"
+        name: "{{ keyname }}"
+        state: absent
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+      delegate_to: localhost
+
+    - name: delete key pair on jump server 
+      file: 
+        state: absent
+        path: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
+      ignore_errors: true
