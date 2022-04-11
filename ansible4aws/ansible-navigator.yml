@@ -1,0 +1,22 @@
+---
+ansible-navigator:
+  ansible:
+    inventories:
+    - ./aws_ec2.yml
+  execution-enviornment:
+    container-engine: podman
+    enabled: true
+    enviornment-variables:
+      set:
+        ANSIBLE_CONFIG: ansible.cfg
+    image: registry.redhat.io/ansible-automation-platform-21/ee-29-rhel8
+    #- registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:latest
+
+  logging:
+    level: critical
+  #When I need to change this to stdout
+  mode: stdout
+  playbook-artifact:
+    enable: true
+    #replay: ~/replay
+    save-as: /home/bforrest/repos/myansible-private/ansible4aws/play_logs/{playbook_name}-artifact-{ts_utc}.json

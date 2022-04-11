@@ -1,6 +1,6 @@
 ---
 - name: create key pair for EC2
-  hosts: all
+  hosts: all 
   gather_facts: true
   vars_files: 
     - credentials.yml

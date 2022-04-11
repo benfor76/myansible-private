@@ -1,1 +1,5 @@
 AnsibleAutomationPlatform2.0/
+.ssh
+ansible-navigator.log
+ansible4aws/ansible-navigator.log
+*-artifact-*
