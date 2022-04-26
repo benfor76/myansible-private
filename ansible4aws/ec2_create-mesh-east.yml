@@ -8,16 +8,56 @@
   vars:
     #Your region
     region: us-east-1
+    sgname: AA-Lab
   tasks:
-    - name: EC2 basic provisioning
-      ec2_instance:
+
+    - name: Gather VPC info
+      ec2_vpc_subnet_info:
+        region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
+      register: subnetinfo
+
+    - name: Gather Security Group information
+      ec2_group_info:
         region: "{{ region }}"
-        key_name: aap-mesh-ec2
-        instance_type: t2.micro
-        image_id: ami-0b0af3577fe5e3532
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+      register: sginfo
+
+    
+    - name: Store vpc subnet fact
+      ansible.builtin.set_fact:
+        mysubnet: "{{ subnetinfo.subnets|map(attribute='id')|list }}"
+
+    - name: Store Security Group fact
+      ansible.builtin.set_fact:
+        mysg: "{{ sginfo.security_groups|map(attribute='group_id')|list }}"
+
+    #- name: Print VPC Subnet information
+    #  debug:
+    #    var: mysubnet 
+
+    #- name: Print {{ sgname }} information
+    #  debug:
+    #    var: sginfo 
+
+    #- name: Print VPC Security Group information
+    #  debug:
+    #    var: mysg 
+
+    - name: EC2 basic provisioning
+      ec2:
+        image: ami-0b0af3577fe5e3532
         wait: yes
-        security_group: aap_mesh_east
-        tags:
-          Environment: Testing
+        instance_type: t2.micro
+        region: "{{ region }}"
+        group_id: "{{ mysg }}"
+        vpc_subnet_id: "{{ mysubnet }}"
+        key_name: aap-mesh-ec2
+        count_tag:
+          Name: TestAAPServer
+        exact_count: 1
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        #loop: "{{ mysg }}"

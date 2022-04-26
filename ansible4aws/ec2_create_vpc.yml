@@ -82,7 +82,7 @@
 
     - name:  Create Security Group for {{ vpc_name }} 
       ec2_group:
-        name: AAP Lab
+        name: AAP-Lab
         description: AAP Security Group
         vpc_id: "{{ vpc.vpc.id }}"
         region: "{{ region }}"

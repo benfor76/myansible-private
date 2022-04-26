@@ -1,0 +1,23 @@
+---
+- name: Create RHEL 8 EC2 instance
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files: 
+    - credentials.yml
+  vars:
+    #Your region
+    region: us-east-1
+  tasks:
+    - name: EC2 basic provisioning
+      ec2_instance:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        region: "{{ region }}"
+        key_name: aap-mesh-ec2
+        instance_type: t2.micro
+        image_id: ami-0b0af3577fe5e3532
+        wait: yes
+        security_group: aap_mesh_east
+        tags:
+          Environment: Testing
