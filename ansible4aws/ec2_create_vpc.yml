@@ -16,6 +16,8 @@
   tasks:
     - name: create vpc
       ec2_vpc:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
         region: "{{ region }}"
         cidr_block: 10.0.0.0/16
         resource_tags: '{"Name":"{{ prefix }}_vpc"}'
