@@ -9,7 +9,7 @@
     # availability zone - In this iteration this var is not used - 
     # az1: us-east-1a
     #VPC
-    vpc_cidr: 10.0.0.0/24
+    vpc_cidr: 10.10.0.0/24
     vpc_name: "Ben's Ansible Lab VPC"
 
     # Subnet
@@ -19,8 +19,14 @@
     # Internet Gateway Name
     igw_name: "Ansible Lab IGW Traffic"
 
+    #Route IGW name
+    route_name: "Route IGW"
+
     securitygroup_name: "Ansible Lab Security Group"
     ec2_tag: "AAP2vpc"
+
+    #Your IP address
+    allowed_ip: "{{ my_IP }}/{{ my_CIDR }}"
 
   vars_files: 
     - credentials.yml
@@ -35,8 +41,65 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
       register: vpc
+    
+    - name: associate subnet to the VPC
+      ec2_vpc_subnet:
+        state: present
+        vpc_id: "{{ vpc.vpc.id }}"
+        region: "{{ region }}"
+        cidr: "{{ subnet_cidr }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        map_public: yes
+        resource_tags:
+          Name: "{{ subnet_name }}"
+      register: subnet
 
-   # - name: associate subnet to the VPC
-   #   ec2_vpc_subnet:
-   #     state: present
-   #     vpc_id: 
+    - name: Create IGW
+      ec2_vpc_igw:
+        vpc_id: "{{ vpc.vpc.id }}"
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        state: present
+        tags:
+          Name: "{{ igw_name }}"
+      register: igw
+
+    - name: Route IGW
+      ec2_vpc_route_table:
+        vpc_id: "{{ vpc.vpc.id }}"
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        subnets:
+          - "{{ subnet.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ igw.gateway_id }}"
+        tags:
+          Name: "{{ route_name }}"
+
+    - name:  Create Security Group for {{ vpc_name }} 
+      ec2_group:
+        name: AAP Lab
+        description: AAP Security Group
+        vpc_id: "{{ vpc.vpc.id }}"
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        rules:
+          # allow ssh access from you ip address
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: "{{ allowed_ip }}"
+          # allow http access from anywhere
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+        rules_egress:
+          - proto: all
+            cidr_ip: 0.0.0.0/0
+      register: security_group
