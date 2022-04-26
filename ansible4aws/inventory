@@ -1,5 +1,8 @@
 [local]
 localhost
 
+[lab]
+rhel8vm1
+
 [all:vars]
 ansible_python_interpreter = /usr/bin/python3.8

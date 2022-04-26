@@ -2,7 +2,8 @@
 ansible-navigator:
   ansible:
     inventories:
-    - ./aws_ec2.yml
+    #- ./aws_ec2.yml
+    - ./inventory
   execution-enviornment:
     container-engine: podman
     enabled: true
@@ -15,8 +16,8 @@ ansible-navigator:
   logging:
     level: critical
   #When I need to change this to stdout
-  mode: stdout
+  #mode: stdout
   playbook-artifact:
-    enable: true
+    enable: false
     #replay: ~/replay
     save-as: /home/bforrest/repos/myansible-private/ansible4aws/play_logs/{playbook_name}-artifact-{ts_utc}.json
