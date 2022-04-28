@@ -1,6 +1,6 @@
 ---
 - name: create key pair for EC2
-  hosts: all 
+  hosts: localhost
   gather_facts: false
   vars_files: 
     - credentials.yml
@@ -36,3 +36,4 @@
       remote_user: bforrest
       vars:
         ansible_user_id: bforrest
+      delegate_to: rhel8vm1
