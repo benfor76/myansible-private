@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  collections:
+    - amazon.aws
   vars:
 
     region: us-east-1
