@@ -3,6 +3,10 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  collections:
+    - amazon.aws
+    - ansible.builtin
+
   vars_files: 
     - credentials.yml
   vars:
@@ -27,11 +31,11 @@
 
     
     - name: Store vpc subnet fact
-      ansible.builtin.set_fact:
+      set_fact:
         mysubnet: "{{ subnetinfo.subnets|map(attribute='subnet_id') | join(',')}}"
 
     - name: Store Security Group fact
-      ansible.builtin.set_fact:
+      set_fact:
         mysg: "{{ sginfo.security_groups|map(attribute='group_id')|list }}"
 
     - name: EC2 basic provisioning
