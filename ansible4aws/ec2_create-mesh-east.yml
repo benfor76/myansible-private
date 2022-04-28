@@ -28,36 +28,23 @@
     
     - name: Store vpc subnet fact
       ansible.builtin.set_fact:
-        mysubnet: "{{ subnetinfo.subnets|map(attribute='id')|list }}"
+        mysubnet: "{{ subnetinfo.subnets|map(attribute='subnet_id') | join(',')}}"
 
     - name: Store Security Group fact
       ansible.builtin.set_fact:
         mysg: "{{ sginfo.security_groups|map(attribute='group_id')|list }}"
 
-    #- name: Print VPC Subnet information
-    #  debug:
-    #    var: mysubnet 
-
-    #- name: Print {{ sgname }} information
-    #  debug:
-    #    var: sginfo 
-
-    #- name: Print VPC Security Group information
-    #  debug:
-    #    var: mysg 
-
     - name: EC2 basic provisioning
       ec2:
         image: ami-0b0af3577fe5e3532
         wait: yes
-        instance_type: t2.micro
+        instance_type: t2.xlarge
         region: "{{ region }}"
         group_id: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
         key_name: aap-mesh-ec2
         count_tag:
-          Name: TestAAPServer
+          Name: AAPLab 
         exact_count: 1
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
-        #loop: "{{ mysg }}"

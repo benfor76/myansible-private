@@ -3,6 +3,7 @@ localhost
 
 [lab]
 rhel8vm1
+yoda 	ansible_host=10.0.0.126 
 
 [all:vars]
 ansible_python_interpreter = /usr/bin/python3.8

@@ -1,0 +1,17 @@
+---
+
+- name: use the copy module with the content attribute 
+  hosts: yoda
+  gather_facts: false
+  tasks:
+
+    - name: Write to file 
+      copy: 
+        #dest: "/home/{{ ansible_user_id }}/testfile.txt"
+        dest: "/home/bforrest/testfile.txt"
+        content: "Ben is testing"
+        mode: 0600
+        follow: no
+      #ignore_errors: true
+      remote_user: bforrest
+      #connection: local
