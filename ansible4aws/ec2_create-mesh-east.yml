@@ -49,6 +49,15 @@
         key_name: aap-mesh-ec2
         count_tag:
           Name: AAPLab 
-        exact_count: 2
+        exact_count: 3
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
+      register: ec2
+
+    - name: Create new volume using SSD storage
+      ec2_vol:
+        instance: "{{ item.id }}"
+        volume_size: 100
+        volume_type: gp2
+      loop: "{{ ec2.instances }}"
+      register: ec2_vol
