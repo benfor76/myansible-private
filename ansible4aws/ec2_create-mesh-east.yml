@@ -56,6 +56,9 @@
 
     - name: Create new volume using SSD storage
       ec2_vol:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        region: "{{ region }}"
         instance: "{{ item.id }}"
         volume_size: 100
         volume_type: gp2

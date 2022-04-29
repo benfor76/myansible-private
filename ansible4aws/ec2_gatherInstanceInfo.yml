@@ -1,0 +1,51 @@
+---
+- name: Create RHEL 8 EC2 instance
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - amazon.aws
+    - ansible.builtin
+
+  vars_files: 
+    - credentials.yml
+  vars:
+    #Your region
+    region: us-east-1
+
+  tasks:
+
+    - name: Gather information about all instances
+      ec2_instance_info:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+      register: ec2_info
+
+    - name: print EC2 information 
+      debug:
+        var: ec2_info
+    
+    #- name: Store EC2 instance fact
+    #  set_fact:
+    #    instanceIDs: "{{ ec2_info.instances|map(attribute='instance_id') | join(',')}}"
+
+    #- name: Split instancelist into a list
+    #  set_fact:
+    #    list: "{{ instanceIDs.split(',') }}"
+
+    - name: Store EC2 instance fact
+      set_fact:
+        instanceinfo: "{{ ec2_info.instances|map(attribute='instance_id')|list }}"
+
+#    - name: print EC2 information 
+#      debug:
+#        var: instancelist
+
+#    - name: print EC2 list 
+#      debug:
+#        var: list
+
+    - name: print EC2 information 
+      debug:
+        var: instanceinfo
